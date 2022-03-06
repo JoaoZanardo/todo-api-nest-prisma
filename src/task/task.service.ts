@@ -23,23 +23,32 @@ export class TaskService {
   }
 
   async findOne(id: number): Promise<Task | objectErrorType> {
-    const user = await this.prisma.task.findFirst({ where: { id } });
-    if (!user) return { error: `User not found` };
-    return user;
+    const task = await this.prisma.task.findFirst({ where: { id } });
+    if (!task) return { error: `Task not found` };
+    return task;
   }
 
   async update(
     id: number,
     data: UpdateTaskDto,
   ): Promise<Task | objectErrorType> {
-    const user = await this.prisma.task.findFirst({ where: { id } });
-    if (!user) return { error: `User not found` };
+    const task = await this.prisma.task.findFirst({ where: { id } });
+    if (!task) return { error: `Task not found` };
     return await this.prisma.task.update({ where: { id }, data });
   }
 
   async remove(id: number): Promise<Task | objectErrorType> {
-    const user = await this.prisma.task.findFirst({ where: { id } });
-    if (!user) return { error: `User not found` };
+    const task = await this.prisma.task.findFirst({ where: { id } });
+    if (!task) return { error: `Task not found` };
     return await this.prisma.task.delete({ where: { id } });
+  }
+
+  async done(id: number): Promise<Task | objectErrorType> {
+    const task = await this.prisma.task.findFirst({ where: { id } });
+    if (!task) return { error: `Task not found` };
+    return await this.prisma.task.update({
+      where: { id },
+      data: { done: true },
+    });
   }
 }

@@ -39,4 +39,9 @@ export class TaskController {
   async remove(@Param('id') id: string) {
     return await this.taskService.remove(+id);
   }
+
+  @Patch('done/:id')
+  async done(@Param('id') id: string) {
+    return await this.taskService.done(+id);
+  }
 }
